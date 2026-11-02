@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #ffffff; --surface: #f8fafc; --surface2: #f1f5f9; --line: #e2e8f0;
+  --ink: #0f172a; --muted: #64748b;
+  --accent: #4f46e5; --accent-hover: #4338ca; --accent-ink: #4338ca; --accent-soft: #eef2ff;
+  --ok: #059669; --ok-soft: #ecfdf5; --warn: #b45309; --warn-soft: #fffbeb; --danger: #dc2626;
+  --shadow: 0 1px 2px rgb(15 23 42 / .04), 0 8px 24px -12px rgb(15 23 42 / .12);
+  --glow: radial-gradient(60rem 30rem at 50% -10%, #eef2ff 0%, transparent 70%);
+}
+.dark {
+  --bg: #0b1020; --surface: #121a2f; --surface2: #1a2340; --line: #263050;
+  --ink: #e8ebf5; --muted: #94a3b8;
+  --accent: #6366f1; --accent-hover: #7c7ff5; --accent-ink: #a5b4fc; --accent-soft: #1d2552;
+  --ok: #34d399; --ok-soft: #0e2a24; --warn: #fbbf24; --warn-soft: #2b2410; --danger: #f87171;
+  --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 32px -12px rgb(0 0 0 / .6);
+  --glow: radial-gradient(60rem 30rem at 50% -10%, #1a2250 0%, transparent 70%);
+}
+
+@theme inline {
+  --color-bg: var(--bg); --color-surface: var(--surface); --color-surface2: var(--surface2);
+  --color-line: var(--line); --color-ink: var(--ink); --color-muted: var(--muted);
+  --color-accent: var(--accent); --color-accent-ink: var(--accent-ink); --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok); --color-ok-soft: var(--ok-soft); --color-warn: var(--warn); --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+}
+
+html { background: var(--bg); }
+body {
+  background: var(--bg) var(--glow) no-repeat; color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  transition: background-color .3s ease, color .3s ease;
+}
+
+/* ---- building blocks ---- */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 1.25rem; padding: 1.75rem; box-shadow: var(--shadow); transition: border-color .2s, box-shadow .2s, background-color .3s; }
+.card-hover:hover { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; border-radius: .75rem; padding: .6rem 1.1rem; font-size: .875rem; font-weight: 600; cursor: pointer; transition: transform .15s ease, background-color .2s, border-color .2s, box-shadow .2s; }
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .45; pointer-events: none; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 6px 16px -8px var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.btn-ghost { border: 1px solid var(--line); color: var(--ink); background: transparent; }
+.btn-ghost:hover { background: var(--surface2); }
+.input { width: 100%; border-radius: .75rem; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: .65rem .9rem; font-size: .9rem; outline: none; transition: border-color .2s, box-shadow .2s; }
+.input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent); }
+.chip { display: inline-flex; align-items: center; gap: .25rem; border-radius: 999px; padding: .25rem .7rem; font-size: .8rem; font-weight: 500; }
+
+/* ---- animations ---- */
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: scale(.94) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes toast { from { opacity: 0; transform: translate(-50%, 16px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes flow { to { stroke-dashoffset: -20; } }
+@keyframes ring { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(1.9); opacity: 0; } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.anim-in { animation: fade-up .5s cubic-bezier(.2,.7,.2,1) both; }
+.anim-pop { animation: pop .25s cubic-bezier(.2,.8,.2,1) both; }
+.anim-fade { animation: fade .25s ease both; }
+.anim-toast { animation: toast .3s cubic-bezier(.2,.8,.2,1) both; }
+.anim-float { animation: float 4s ease-in-out infinite; }
+.flow { animation: flow 1s linear infinite; }
+.ring { transform-box: fill-box; transform-origin: center; animation: ring 1.8s ease-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
